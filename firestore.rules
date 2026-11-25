@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The passcode login (the hidden sync account).
+    function isOwner() {
+      return request.auth != null && request.auth.token.email == 'iangehret@gmail.com';
+    }
+
+    // All records: only phones unlocked with the passcode.
+    match /tsb_sync/{key} {
+      allow read, write: if isOwner();
+    }
+
+    // Showman codes: each code is its own document, named by a scrambled form of the code.
+    match /tsb_sm/{code} {
+      allow get: if request.auth != null;
+      allow list, create, update, delete: if isOwner();
+      match /years/{year} {
+        allow get, list: if request.auth != null;
+        allow create, update, delete: if isOwner();
+      }
+      match /inbox/{entry} {
+        allow create: if request.auth != null
+          && get(/databases/$(database)/documents/tsb_sm/$(code)).data.active == true
+          && request.resource.data.keys().hasOnly(['op', 'ts', 'by'])
+          && request.resource.data.op is string
+          && request.resource.data.op.size() < 20000;
+        allow get, delete: if isOwner();
+      }
+    }
+
+    match /{path=**}/inbox/{entry} {
+      allow read, delete: if isOwner();
+    }
+  }
+}

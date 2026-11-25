@@ -1,0 +1,25 @@
+{
+  "name": "Example Club Lambs",
+  "shortName": "Example",
+  "homeScreenName": "Example Lambs",
+  "storagePrefix": "excl:",
+  "collection": "excl",
+  "syncEmail": "owner@example.com",
+  "firebase": {
+    "apiKey": "PASTE",
+    "authDomain": "PASTE.firebaseapp.com",
+    "projectId": "PASTE",
+    "storageBucket": "PASTE.firebasestorage.app",
+    "messagingSenderId": "PASTE",
+    "appId": "PASTE"
+  },
+  "years": ["2027", "All Time"],
+  "examplesYear": "2027",
+  "examples": true,
+  "logo": "logo.png",
+  "logoOnDark": "",
+  "icon": "",
+  "iconBackground": "",
+  "palette": { "dark": "#111111", "accent": "#C9A227", "accentLight": "#E8D38A", "accentMid": "#DCC36A" },
+  "version": 1
+}
